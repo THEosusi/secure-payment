@@ -11,12 +11,13 @@
   <button id="payBtn">Pay $3.50</button>
 
   <script>
+    // register
     async function registerCredential() {
       try {
         const publicKey = {
           challenge: crypto.getRandomValues(new Uint8Array(32)),
           rp: {
-            id: window.location.hostname,
+            id: "theosusi.github.io", 
             name: "CTAP Test RP"
           },
           user: {
@@ -39,6 +40,7 @@
         const credential = await navigator.credentials.create({ publicKey });
         console.log("Credential created:", credential);
 
+        // Credential ID to base 64 and save (for SPC)
         const credIdBase64 = btoa(String.fromCharCode(...new Uint8Array(credential.rawId)));
         localStorage.setItem("credentialId", credIdBase64);
         alert("Credential registered and saved.");
@@ -73,8 +75,8 @@
         const methodData = [{
           supportedMethods: "secure-payment-confirmation",
           data: {
-            rpId: window.location.hostname,
-            payeeOrigin: window.location.origin,
+            rpId: "theosusi.github.io",  
+            payeeOrigin: "https://theosusi.github.io", 
             credentialIds: [credId.buffer],
             instrument: {
               displayName: "Coffee Shop",
